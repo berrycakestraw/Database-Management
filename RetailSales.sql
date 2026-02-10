@@ -1,3 +1,4 @@
+--Feb 2
 CREATE TABLE RetailSales (
     SaleID INT PRIMARY KEY,
     CustomerName VARCHAR(100),
@@ -64,6 +65,29 @@ select productname, count(*) as Product_sold from retailsales group by productna
 select customername, sum(quantity * unitprice) as total_sale from retailsales group by customername 
 having sum(quantity * unitprice) > 100000 order by total_sale asc;
 
+
+--Feb 3
+select top 2 customername, 
+sum(case when category = 'Electronics' THEN quantity * unitprice else 0 end) as electronics,
+sum(case when category = 'Furniture' THEN quantity * unitprice else 0 end) as furniture_spending
+from retailsales group by customername
+having 
+sum(case when category = 'Electronics' THEN quantity * unitprice else 0 end) >
+sum(case when category = 'Furniture' THEN quantity * unitprice else 0 end)
+order by 2 asc;
+
+select city, max(quantity * unitprice) as max_sale from retailsales group by city 
+having max(quantity * unitprice) > 80000;
+
+select productname, city, sum(quantity) as total_qty from retailsales group by productname, city order by 1 asc;
+
+select customername, category, sum(quantity * unitprice) as total_spending from retailsales 
+group by customername, category
+having sum(quantity * unitprice) > 50000 order by 1 asc;
+
+select city, productname, count(distinct saledate) as date_records from retailsales 
+group by city, productname
+having count(distinct saledate) > 1;
 
 
 
